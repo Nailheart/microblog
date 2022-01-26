@@ -4,6 +4,15 @@ from app import db, login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
+# таблица ассоциаций подписчиков.
+followers = db.Table(
+    'followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
+
+
 # класс User наследуется от db.Model базового класса для всех моделей
 class User(UserMixin, db.Model):
     # Поля создаются как экземпляры db.Column класса, который принимает тип поля в качестве аргумента, а также другие необязательные аргументы, которые, например, позволяют указать, какие поля являются уникальными и проиндексированы, что важно для эффективного поиска в базе данных.
@@ -14,6 +23,11 @@ class User(UserMixin, db.Model):
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    followed = db.relationship(
+        'User', secondary=followers,
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.followed_id == id),
+        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
 
     # метод __repr__ сообщает Python, как печатать объекты этого класса
     def __repr__ (self):
@@ -30,6 +44,27 @@ class User(UserMixin, db.Model):
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
+    
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+
+    # с помощью метода is_following устраняем дубликаты
+    def is_following(self, user):
+        return self.followed.filter(
+            followers.c.followed_id == user.id).count() > 0
+    
+    # Запрос отслеживаемых сообщений с собственными сообщениями пользователя.
+    def followed_posts(self):
+        followed = Post.query.join(
+            followers, (followers.c.followed_id == Post.user_id)).filter(
+                followers.c.follower_id == self.id)
+        own = Post.query.filter_by(user_id=self.id)
+        return followed.union(own).order_by(Post.timestamp.desc())
 
 
 # Пользовательский загрузчик регистрируется в Flask-Login с помощью декоратора @login.user_loader.
