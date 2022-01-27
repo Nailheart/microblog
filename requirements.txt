@@ -5,6 +5,7 @@ flask-migrate
 flask-login
 flask-mail
 flask-bootstrap
+flask-moment
 email-validator
 python-dotenv
 pyjwt
