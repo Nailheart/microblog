@@ -1,13 +1,14 @@
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_babel import Babel, lazy_gettext as _l
 from config import Config
 
 app = Flask(__name__)
@@ -26,6 +27,7 @@ login.login_view = 'login'
 mail = Mail(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+babel = Babel(app)
 
 # Журнал ошыбок по электроной почте
 # включаем регистратор электронной почты только тогда, когда приложение работает без режима отладки, что обозначается app.debug как True, а также когда почтовый сервер существует в конфигурации.
@@ -56,5 +58,11 @@ if not app.debug:
 
     app.logger.setLevel(logging.INFO)
     app.logger.info('Microblog startup')
+
+# выбор предпочтительного языка
+@babel.localeselector
+def get_locale():
+    # return request.accept_languages.best_match(app.config['LANGUAGES'])
+    return 'ru' # принудительное использование русского языка
 
 from app import views, models, errors

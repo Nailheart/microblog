@@ -34,3 +34,6 @@ class Config(object):
 
     # количества сообщений на странице.
     POSTS_PER_PAGE = 3
+
+    # список поддерживаемых языков.
+    LANGUAGES = ['en', 'ru']
