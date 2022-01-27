@@ -17,7 +17,20 @@ class Config(object):
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    # ADMINS - список адресов которые будут получать отчеты об ошыбках
     ADMINS = ['your-email@example.com']
+
+    # Запуск поддельного почтового сервера SMTP который принимает электронные письма, но вместо того, чтобы отправлять их, выводит их в консоль.
+    # python -m smtpd -n -c DebuggingServer localhost:8025
+    # export MAIL_SERVER=localhost
+    # export MAIL_PORT=8025
+
+    # Пример для отправки писем на почту google
+    # export MAIL_SERVER=smtp.googlemail.com
+    # export MAIL_PORT=587
+    # export MAIL_USE_TLS=1
+    # export MAIL_USERNAME=<your-gmail-username>
+    # export MAIL_PASSWORD=<your-gmail-password>
 
     # количества сообщений на странице.
     POSTS_PER_PAGE = 3
