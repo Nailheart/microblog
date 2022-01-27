@@ -6,6 +6,7 @@ flask-login
 flask-mail
 flask-bootstrap
 flask-moment
+flask-babel
 email-validator
 python-dotenv
 pyjwt
