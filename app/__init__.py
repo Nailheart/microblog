@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_bootstrap import Bootstrap
 from config import Config
 
 app = Flask(__name__)
@@ -27,6 +28,9 @@ login.login_view = 'login'
 
 # экземпляр Flask-Mail.
 mail = Mail(app)
+
+# экземпляр Flask-Bootstrap.
+bootstrap = Bootstrap(app)
 
 # Журнал ошыбок по электроной почте
 # включаем регистратор электронной почты только тогда, когда приложение работает без режима отладки, что обозначается app.debug как True, а также когда почтовый сервер существует в конфигурации.
