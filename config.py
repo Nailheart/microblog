@@ -37,3 +37,6 @@ class Config(object):
 
     # список поддерживаемых языков.
     LANGUAGES = ['en', 'ru']
+
+    # добавьте ключ Microsoft Translator API в конфигурацию.
+    MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')

@@ -62,7 +62,7 @@ if not app.debug:
 # выбор предпочтительного языка
 @babel.localeselector
 def get_locale():
-    # return request.accept_languages.best_match(app.config['LANGUAGES'])
-    return 'ru' # принудительное использование русского языка
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    # return 'ru' # принудительное использование русского языка
 
 from app import views, models, errors
