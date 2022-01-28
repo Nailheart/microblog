@@ -8,5 +8,7 @@ flask-bootstrap
 flask-moment
 flask-babel
 email-validator
+langdetect
+requests
 python-dotenv
 pyjwt
