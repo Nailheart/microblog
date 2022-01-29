@@ -1,7 +1,7 @@
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
-from flask import Flask, request
+from flask import Flask, request, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -11,58 +11,79 @@ from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 from config import Config
 
-app = Flask(__name__)
 
-# Берем настройки конфигурации из класса Config (/config.py)
-app.config.from_object(Config)
+db = SQLAlchemy()
+migrate = Migrate()
+login = LoginManager()
+login.login_view = 'auth.login'
+login.login_message = _l('Please log in to access this page.')
+mail = Mail()
+bootstrap = Bootstrap()
+moment = Moment()
+babel = Babel()
 
-# Покдлючаем зависимости
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-login = LoginManager(app)
+# создаем экземпляр приложения
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    # Берем настройки конфигурации из класса Config (/config.py)
+    app.config.from_object(config_class)
 
-# Значение 'login' это имя функции (или конечной точки) для входа в систему. Другими словами, имя, которое вы будете использовать в url_for() вызове для получения URL-адреса.
-login.login_view = 'login'
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login.init_app(app)
+    mail.init_app(app)
+    bootstrap.init_app(app)
+    moment.init_app(app)
+    babel.init_app(app)
 
-mail = Mail(app)
-bootstrap = Bootstrap(app)
-moment = Moment(app)
-babel = Babel(app)
+    from app.errors import bp as errors_bp
+    app.register_blueprint(errors_bp)
 
-# Журнал ошыбок по электроной почте
-# включаем регистратор электронной почты только тогда, когда приложение работает без режима отладки, что обозначается app.debug как True, а также когда почтовый сервер существует в конфигурации.
-if not app.debug:
-    if app.config['MAIL_SERVER']:
-        auth = None
-        if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
-            auth = (app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
-        secure = None
-        if app.config['MAIL_USE_TLS']:
-            secure = ()
-        mail_handler = SMTPHandler(
-            mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),
-            fromaddr='no-reply@' + app.config['MAIL_SERVER'],
-            toaddrs=app.config['ADMINS'], subject='Microblog Failure',
-            credentials=auth, secure=secure)
-        mail_handler.setLevel(logging.ERROR)
-        app.logger.addHandler(mail_handler)
+    from app.auth import bp as auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
 
-    # создаем каталог журналов если его не существует и записываем файл журнала с именем microblog.log
-    # ограничиваем размер файла журнала до 10 КБ и сохраняем последние десять файлов журнала в качестве резервной копии.
-    if not os.path.exists('logs'):
-        os.mkdir('logs')
-    file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240, backupCount=10)
-    file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
+    from app.main import bp as main_bp
+    app.register_blueprint(main_bp)
 
-    app.logger.setLevel(logging.INFO)
-    app.logger.info('Microblog startup')
+    # Журнал ошыбок по электроной почте
+    # включаем регистратор электронной почты когда приложение работает без режима отладки, что обозначается app.debug как True, а также когда почтовый сервер существует в конфигурации.
+    if not app.debug and not app.testing:
+        if app.config['MAIL_SERVER']:
+            auth = None
+            if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
+                auth = (app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
+            secure = None
+            if app.config['MAIL_USE_TLS']:
+                secure = ()
+            mail_handler = SMTPHandler(
+                mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),
+                fromaddr='no-reply@' + app.config['MAIL_SERVER'],
+                toaddrs=app.config['ADMINS'], subject='Microblog Failure',
+                credentials=auth, secure=secure)
+            mail_handler.setLevel(logging.ERROR)
+            app.logger.addHandler(mail_handler)
+
+        # создаем каталог журналов если его не существует и записываем файл журнала microblog.log
+        # ограничиваем размер файла журнала до 10 КБ и сохраняем последние десять файлов журнала в качестве резервной копии
+        if not os.path.exists('logs'):
+            os.mkdir('logs')
+        file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240, backupCount=10)
+        file_handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(levelname)s: %(message)s '
+            '[in %(pathname)s:%(lineno)d]'))
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+
+        app.logger.setLevel(logging.INFO)
+        app.logger.info('Microblog startup')
+    return app
+
 
 # выбор предпочтительного языка
 @babel.localeselector
 def get_locale():
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    return request.accept_languages.best_match(current_app.config['LANGUAGES'])
     # return 'ru' # принудительное использование русского языка
 
-from app import views, models, errors
+
+from app import models

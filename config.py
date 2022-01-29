@@ -1,5 +1,10 @@
 import os
+from dotenv import load_dotenv
+
 basedir = os.path.abspath(os.path.dirname(__file__))
+# До создания класса Config импортируем файл .env 
+# чтобы переменные файла .env были уже установлены при создании класса Config
+load_dotenv(os.path.join(basedir, '.env'))
 
 class Config(object):
     # секретный ключ берется из переменной SECRET_KEY если она не определена берется жестко запрограммированная строка
