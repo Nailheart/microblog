@@ -8,7 +8,7 @@ flask-bootstrap
 flask-moment
 flask-babel
 email-validator
-elasticsearch
+elasticsearch==7.13.3
 langdetect
 requests
 python-dotenv
