@@ -45,3 +45,6 @@ class Config(object):
 
     # добавьте ключ Microsoft Translator API в конфигурацию.
     MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
+
+    # Elasticsearch -  Полнотекстовый поиск
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
