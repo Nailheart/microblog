@@ -7,16 +7,21 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
 class Config(object):
-    # секретный ключ берется из переменной SECRET_KEY если она не определена берется жестко запрограммированная строка
+    # секретный ключ берется из переменной SECRET_KEY если она не определена  
+    # берется жестко запрограммированная строка 'you-will-never-guess'
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
     
-    # расположения базы данных берется из переменной среды DATABASE_URL если она не определенна настраиваем базу данных с именем app.db
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
+    # расположения базы данных берется из переменной среды DATABASE_URL если она не определенна 
+    # настраиваем базу данных с именем app.db
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'app.db')
 
-    # отключаем отправку сигнала приложению каждый раз, когда в базу данных должно быть внесено изменение
+    # отключаем отправку сигнала приложению каждый раз,
+    # когда в базу данных должно быть внесено изменение
     SQLALCHEMY_TRACK_MODIFICATIONS = False 
 
-    # данные почтового сервера на который будет отправляться ошибки с трассировкой стека ошибки в теле письма.
+    # данные почтового сервера на который будет отправляться ошибки
+    # с трассировкой стека ошибки в теле письма.
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
@@ -25,7 +30,8 @@ class Config(object):
     # ADMINS - список адресов которые будут получать отчеты об ошыбках
     ADMINS = ['your-email@example.com']
 
-    # Запуск поддельного почтового сервера SMTP который принимает электронные письма, но вместо того, чтобы отправлять их, выводит их в консоль.
+    # Запуск поддельного почтового сервера SMTP который принимает электронные письма,
+    # но вместо того, чтобы отправлять их, выводит их в консоль.
     # python -m smtpd -n -c DebuggingServer localhost:8025
     # export MAIL_SERVER=localhost
     # export MAIL_PORT=8025
@@ -37,7 +43,7 @@ class Config(object):
     # export MAIL_USERNAME=<your-gmail-username>
     # export MAIL_PASSWORD=<your-gmail-password>
 
-    # количества сообщений на странице.
+    # количества постов на странице.
     POSTS_PER_PAGE = 3
 
     # список поддерживаемых языков.

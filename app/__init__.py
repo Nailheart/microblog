@@ -49,7 +49,8 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
 
     # Журнал ошыбок по электроной почте
-    # включаем регистратор электронной почты когда приложение работает без режима отладки, что обозначается app.debug как True, а также когда почтовый сервер существует в конфигурации.
+    # включаем регистратор электронной почты когда приложение работает без режима отладки,
+    # что обозначается app.debug как True, а также когда почтовый сервер существует в конфигурации.
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:
             auth = None
@@ -67,7 +68,8 @@ def create_app(config_class=Config):
             app.logger.addHandler(mail_handler)
 
         # создаем каталог журналов если его не существует и записываем файл журнала microblog.log
-        # ограничиваем размер файла журнала до 10 КБ и сохраняем последние десять файлов журнала в качестве резервной копии
+        # ограничиваем размер файла журнала до 10 КБ и сохраняем последние десять файлов журнала
+        # в качестве резервной копии.
         if not os.path.exists('logs'):
             os.mkdir('logs')
         file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240, backupCount=10)

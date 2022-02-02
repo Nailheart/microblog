@@ -10,13 +10,14 @@ from app.translate import translate
 from app.main import bp
 
 
-# Декоратор @before_request из Flask регистрирует функцию для выполнения прямо перед функцией представления. 
-# Если пользователь зарегистрирован в поле last__seen устанавливаем текущее время UTC. 
-# db.session.commit() - фиксирует изменения в базе данных
+# Декоратор @before_request из Flask регистрирует функцию для выполнения 
+# прямо перед функцией представления.
 @bp.before_app_request
 def before_request():
     if current_user.is_authenticated:
+        # усиановка текущего времени UTC в поле last__seen
         current_user.last_seen = datetime.utcnow()
+        # фиксируем изменения в базе данных
         db.session.commit()
         g.search_form = SearchForm()
     # сохраняем выбранный язык g.locale
