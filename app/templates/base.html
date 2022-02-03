@@ -79,5 +79,45 @@
         $(destElem).text("{{ _('Error: Could not contact server.') }}");
       });
     }
+
+    $(() => {
+      let timer = null;
+      let xhr = null;
+      $('.user_popup').hover(
+        (event) => {
+          // mouse in event handler
+          const elem = $(event.currentTarget);
+          timer = setTimeout(() => {
+            timer = null;
+            xhr = $.ajax('/user/' + elem.first().text().trim() + '/popup').done((data) => {
+              xhr = null;
+              elem.popover({
+                trigger: 'manual',
+                html: true,
+                animation: false,
+                container: elem,
+                content: data
+              }).popover('show');
+                // когда новые элементы Flask-Moment добавляются через Ajax, необходимо вызвать функцию
+                // flask_moment_render_all() для правельного отображения этих элементов.
+              flask_moment_render_all();  
+            });
+          }, 1000);
+        },
+        (event) => {
+          // mouse out event handler
+          const elem = $(event.currentTarget);
+          if (timer) {
+            clearTimeout(timer);
+            timer = null;
+          } else if (xhr) {
+            xhr.abort();
+            xhr = null;
+          } else {
+            elem.popover('destroy')
+          }
+        }
+      )
+    });
   </script>
 {% endblock %}
