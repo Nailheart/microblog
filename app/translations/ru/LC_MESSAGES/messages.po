@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-01-29 18:30+0200\n"
+"POT-Creation-Date: 2022-02-04 16:01+0200\n"
 "PO-Revision-Date: 2022-01-27 19:32+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -23,11 +23,11 @@ msgstr ""
 msgid "Please log in to access this page."
 msgstr "Пожалуйста, войдите, чтобы получить доступ к этой странице."
 
-#: app/translate.py:10
+#: app/translate.py:11
 msgid "Error: the translation service is not configured."
 msgstr "Ошибка: служба перевода не настроена."
 
-#: app/translate.py:20
+#: app/translate.py:21
 msgid "Error: the translation service failed."
 msgstr "Ошибка: перевести не удалось."
 
@@ -65,7 +65,7 @@ msgstr "Повторите пароль"
 msgid "Register"
 msgstr "Регистрация"
 
-#: app/auth/forms.py:25 app/main/forms.py:23
+#: app/auth/forms.py:25 app/main/forms.py:26
 msgid "Please use a different username."
 msgstr "Пожалуйста, используйте другое имя пользователя."
 
@@ -103,68 +103,81 @@ msgstr "Ваш пароль успешно изменен."
 msgid "About me"
 msgstr "Обо мне"
 
-#: app/main/forms.py:12 app/main/forms.py:33
+#: app/main/forms.py:12 app/main/forms.py:36 app/main/forms.py:52
 msgid "Submit"
 msgstr "Отправить"
 
-#: app/main/forms.py:32
+#: app/main/forms.py:35
 msgid "Say something"
 msgstr "Скажите что-нибудь"
 
-#: app/main/forms.py:37 app/main/routes.py:170
+#: app/main/forms.py:40 app/main/routes.py:179
 #, fuzzy
 msgid "Search"
 msgstr "Поиск"
 
-#: app/main/routes.py:40
+#: app/main/forms.py:51
+msgid "Message"
+msgstr "Сообщение"
+
+#: app/main/routes.py:41
 msgid "Your post is now live!"
 msgstr "Ваш пост опобликован"
 
-#: app/main/routes.py:49 app/templates/base.html:21
+#: app/main/routes.py:50 app/templates/base.html:21
 msgid "Home"
 msgstr "Главная"
 
-#: app/main/routes.py:66 app/templates/base.html:22
+#: app/main/routes.py:67 app/templates/base.html:22
 msgid "Explore"
 msgstr "Исследовать"
 
-#: app/main/routes.py:101
+#: app/main/routes.py:110
 msgid "Your changes have been saved."
 msgstr "Ваши изменения были сохранены."
 
-#: app/main/routes.py:106 app/templates/edit_profile.html:5
+#: app/main/routes.py:115 app/templates/edit_profile.html:5
 msgid "Edit Profile"
 msgstr "Редактировать профиль"
 
-#: app/main/routes.py:116 app/main/routes.py:136
+#: app/main/routes.py:125 app/main/routes.py:145
 #, python-format
 msgid "User %(username)s not found."
 msgstr "Пользователь %(username)s не найден"
 
-#: app/main/routes.py:119
+#: app/main/routes.py:128
 msgid "You cannot follow yourself!"
 msgstr "Вы не можете подписаться сами на себя"
 
-#: app/main/routes.py:123
+#: app/main/routes.py:132
 #, python-format
 msgid "You are following %(username)s!"
 msgstr "Вы подписаны на %(username)s!"
 
-#: app/main/routes.py:139
+#: app/main/routes.py:148
 msgid "You cannot unfollow yourself!"
 msgstr "Вы не можете отписаться от себя!"
 
-#: app/main/routes.py:143
+#: app/main/routes.py:152
 #, python-format
 msgid "You are not following %(username)s."
 msgstr "Вы отписались от %(username)s."
 
-#: app/templates/_post.html:14
+#: app/main/routes.py:196
+#, fuzzy
+msgid "Your message has been sent."
+msgstr "Ваш пароль успешно изменен."
+
+#: app/main/routes.py:200
+msgid "Send Message"
+msgstr "Отправить сообщение"
+
+#: app/templates/_post.html:16
 #, python-format
 msgid "%(username)s said %(when)s"
 msgstr "%(username)s опубликовал %(when)s"
 
-#: app/templates/_post.html:24
+#: app/templates/_post.html:26
 msgid "Translate"
 msgstr "Перевести"
 
@@ -176,15 +189,19 @@ msgstr "Добро пожаловать в микроблог"
 msgid "Login"
 msgstr "Авторизоваться"
 
-#: app/templates/base.html:35
+#: app/templates/base.html:37 app/templates/messages.html:4
+msgid "Messages"
+msgstr "Сообщения"
+
+#: app/templates/base.html:44
 msgid "Profile"
 msgstr "Профиль"
 
-#: app/templates/base.html:36
+#: app/templates/base.html:45
 msgid "Logout"
 msgstr "Выйти"
 
-#: app/templates/base.html:79
+#: app/templates/base.html:89
 msgid "Error: Could not contact server."
 msgstr "Ошибка: Не удалось связаться с сервером."
 
@@ -193,13 +210,21 @@ msgstr "Ошибка: Не удалось связаться с сервером
 msgid "Hi, %(username)s!"
 msgstr "Привет, %(username)s!"
 
-#: app/templates/index.html:20 app/templates/user.html:43
+#: app/templates/index.html:20 app/templates/user.html:49
 msgid "Newer posts"
 msgstr "Новые посты"
 
-#: app/templates/index.html:25 app/templates/user.html:48
+#: app/templates/index.html:25 app/templates/user.html:54
 msgid "Older posts"
 msgstr "Старые посты"
+
+#: app/templates/messages.html:14
+msgid "Newer messages"
+msgstr "Новые сообщения"
+
+#: app/templates/messages.html:19
+msgid "Older messages"
+msgstr "Старые сообщения"
 
 #: app/templates/search.html:4
 msgid "Search Results"
@@ -213,35 +238,46 @@ msgstr "Предыдущий результат"
 msgid "Next results"
 msgstr "Слудующий результат"
 
+#: app/templates/send_message.html:5
+#, python-format
+msgid "Send Message to %(recipient)s"
+msgstr "Отправить сообщение %(recipient)s"
+
 #: app/templates/user.html:8
 msgid "User"
 msgstr "Пользователь"
 
-#: app/templates/user.html:11
+#: app/templates/user.html:11 app/templates/user_popup.html:11
 msgid "Last seen on"
 msgstr "Последний раз в сети"
 
-#: app/templates/user.html:12
+#: app/templates/user.html:12 app/templates/user_popup.html:15
 #, python-format
 msgid "%(count)d followers"
 msgstr "Подписчиков %(count)d"
 
-#: app/templates/user.html:12
+#: app/templates/user.html:12 app/templates/user_popup.html:16
 #, python-format
 msgid "%(count)d following"
 msgstr "Подписаны на %(count)d"
 
 #: app/templates/user.html:15
+#, fuzzy
 msgid "Edit your profile"
 msgstr "Редактировать профиль"
 
-#: app/templates/user.html:20
+#: app/templates/user.html:20 app/templates/user_popup.html:24
 msgid "Follow"
 msgstr "Подписаться"
 
-#: app/templates/user.html:27
+#: app/templates/user.html:27 app/templates/user_popup.html:31
 msgid "Unfollow"
 msgstr "Отписаться"
+
+#: app/templates/user.html:34
+#, fuzzy
+msgid "Send private message"
+msgstr "Отправить приватное сообщение"
 
 #: app/templates/auth/login.html:13
 msgid "New User?"
@@ -278,4 +314,3 @@ msgstr "Произошла неожиданная ошибка"
 #: app/templates/errors/500.html:5
 msgid "The administrator has been notified. Sorry for the inconvenience!"
 msgstr "Администратор уведомлен. Простите за неудобства!"
-
