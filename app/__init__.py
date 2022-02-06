@@ -52,6 +52,9 @@ def create_app(config_class=Config):
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
 
+    from app.api import bp as api_bp
+    app.register_blueprint(api_bp, url_prefix='/api')
+
     # Журнал ошыбок по электроной почте
     # включаем регистратор электронной почты когда приложение работает без режима отладки,
     # что обозначается app.debug как True, а также когда почтовый сервер существует в конфигурации.
