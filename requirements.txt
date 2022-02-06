@@ -11,5 +11,6 @@ email-validator
 elasticsearch==7.13.3
 langdetect
 requests
+rq
 python-dotenv
 pyjwt
