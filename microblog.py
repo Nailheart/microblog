@@ -1,12 +1,19 @@
 from app import create_app, db, cli
-from app.models import User, Post, Message, Notification
+from app.models import User, Post, Message, Notification, Task
 
 app = create_app()
 cli.register(app)
 
 # Декоратор app.shell_context_processor регистрирует функцию как функцию контекста оболочки.
 # Когда flask shell команда запустится, она вызовет эту функцию и зарегистрирует 
-# возвращенные ею элементы в сеансе оболочки.
+# возвращенные ею элементы в сеансе оболочки Python.
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'User': User, 'Post': Post, 'Message': Message, 'Notification': Notification}
+    return {
+        'db': db,
+        'User': User,
+        'Post': Post,
+        'Message': Message,
+        'Notification': Notification,
+        'Task': Task
+    }

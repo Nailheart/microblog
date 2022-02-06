@@ -54,3 +54,6 @@ class Config(object):
 
     # Elasticsearch -  Полнотекстовый поиск
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+
+    # URL-адрес подключения для службы Redis
+    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
