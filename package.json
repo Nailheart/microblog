@@ -1,0 +1,30 @@
+{
+  "name": "microblog",
+  "description": "Flask Mega Tutorial",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "browser-sync": "latest",
+    "del": "latest",
+    "gulp": "latest",
+    "gulp-autoprefixer": "latest",
+    "gulp-cheerio": "latest",
+    "gulp-csso": "latest",
+    "gulp-dart-sass": "latest",
+    "gulp-notify": "latest",
+    "gulp-plumber": "latest",
+    "gulp-rename": "latest",
+    "gulp-sourcemaps": "latest",
+    "gulp-svgmin": "latest",
+    "gulp-svgstore": "latest",
+    "gulp-uglify": "latest",
+    "postcss-scss": "latest",
+    "uglify-es": "latest"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "dev": "gulp dev"
+  },
+  "author": "",
+  "license": "ISC"
+}
