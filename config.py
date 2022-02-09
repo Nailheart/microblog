@@ -43,13 +43,13 @@ class Config(object):
     # export MAIL_USERNAME=<your-gmail-username>
     # export MAIL_PASSWORD=<your-gmail-password>
 
-    # количества постов на странице.
+    # количества постов на странице
     POSTS_PER_PAGE = 3
 
-    # список поддерживаемых языков.
+    # список поддерживаемых языков
     LANGUAGES = ['en', 'ru']
 
-    # добавьте ключ Microsoft Translator API в конфигурацию.
+    # ключ Microsoft Translator API
     MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
 
     # Elasticsearch -  Полнотекстовый поиск
