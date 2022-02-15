@@ -1,0 +1,14 @@
+<nav class="pagination" aria-label="...">
+  <ul class="pagination__list">
+    <li class="pagination__item">
+      <a class="pagination__link pagination__link--prev{% if not prev_url %} pagination__link--disabled{% endif %}" href="{{ prev_url or '#' }}">
+        <span aria-hidden="true">&larr;</span> {{ _('Newer posts') }}
+      </a>
+    </li>
+    <li class="pagination__item">
+      <a class="pagination__link pagination__link--next{% if not next_url %} pagination__link--disabled{% endif %}" href="{{ next_url or '#' }}">
+        {{ _('Older posts') }} <span aria-hidden="true">&rarr;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

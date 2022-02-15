@@ -4,7 +4,7 @@
   position: relative;
 }
 
-.header__search {
+.header__search {  
   @include media-max(md) {
     order: -1;
     margin-bottom: 10px;
@@ -12,4 +12,12 @@
   @include media-min(md) {
     margin: 0 10px;
   }
+}
+
+.header__search-input {
+  width: 100%;
+  padding: 5px 15px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
 }

@@ -28,6 +28,14 @@
   </div>
 {%- endmacro %}
 
+{% macro textarea(field, bem_block='form') -%}
+  <div class="{{ bem_block }}__group {% if field.errors %}{{ bem_block }}__group--error{% endif %}">
+    {{ field.label(class='%s__label' % bem_block) }}
+    {{ field(class='%s__textarea' % bem_block, placeholder=field.label.text, **kwargs) }}
+    {{ errors(field.errors) }}
+  </div>
+{%- endmacro %}
+
 {% macro checkbox(field, bem_block='form') -%}
   <div class="{{ bem_block }}__group {{ bem_block }}__group--checkbox {% if field.errors %}{{ bem_block }}__group--error{% endif %}">
     {{ field(class='%s__checkbox' % bem_block) }}

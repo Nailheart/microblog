@@ -57,6 +57,7 @@
   padding: 0;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 
   @include media-min(md) { display: none; }
 }
