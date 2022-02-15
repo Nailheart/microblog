@@ -1,0 +1,15 @@
+.login__help { margin-top: 15px; }
+
+.login__help-text {
+  &:last-child { margin-bottom: 0; }
+  
+  > a {
+    color: var(--color-grey);
+    text-decoration: underline;
+    transition: .2s;
+
+    &:hover {
+      color: var(--color-blue);
+    }
+  }
+}

@@ -101,7 +101,7 @@ export const sprite = () => src(`${path.img.root}**/*.svg`)
   .pipe(rename('sprite.svg'))
   .pipe(dest(path.img.save))
 
-export const cleanStyles = () => del(path.styles.save);
+export const cleanStyles = () => del([`${path.styles.save}/styles.min.css`, `${path.styles.save}/styles.min.css.map`]);
 
 export const devWatch = () => {
   const bs = browserSync.init({

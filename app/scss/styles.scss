@@ -1,1 +1,17 @@
-@import "common/global"
+// Common
+@import "common/normalize";
+@import "common/vars";
+@import "mixins/media";
+@import "mixins/container";
+@import "mixins/btn";
+@import "common/global";
+
+// Blocks
+@import "blocks/header";
+@import "blocks/nav";
+@import "blocks/main";
+@import "blocks/auth";
+@import "blocks/login";
+@import "blocks/alert";
+@import "blocks/form";
+@import "blocks/footer";

@@ -1,0 +1,15 @@
+.header {
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+
+.header__search {
+  @include media-max(md) {
+    order: -1;
+    margin-bottom: 10px;
+  }
+  @include media-min(md) {
+    margin: 0 10px;
+  }
+}

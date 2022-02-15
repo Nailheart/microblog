@@ -1,0 +1,16 @@
+@mixin btn {
+  color: var(--color-white);
+  font-weight: 700;
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--color-blue);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: .2s;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-blue-hover);
+  }
+}

@@ -1,39 +1,56 @@
-{% extends 'bootstrap/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    {% if title %}
+      {{ title }} - Microblog
+    {% else %}
+      {{ _('Welcome to Microblog') }}
+    {% endif %}
+  </title>
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.min.css') }}">
+</head>
+<body>
+  <header class="header">
+    <nav class="nav">
+      <div class="nav__header">
+        <a class="nav__logo" href="{{ url_for('main.index') }}">Microblog</a>
 
-{% block title %}
-  {% if title %}{{ title }} - Microblog{% else %}{{ _('Welcome to Microblog') }}{% endif %}
-{% endblock %}
-
-{% block navbar %}
-  <nav class="navbar navbar-default">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+        <button class="nav__toggle" type="button" aria-label="Toggle navigation">
+          <span class="nav__toggle-item"></span>
         </button>
-        <a class="navbar-brand" href="{{ url_for('main.index') }}">Microblog</a>
       </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li><a href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
-          <li><a href="{{ url_for('main.explore') }}">{{ _('Explore') }}</a></li>
+
+      <div class="nav__content">
+        <ul class="nav__list nav__list--left">
+          <li class="nav__item">
+            <a class="nav__link" href="{{ url_for('main.index') }}">{{ _('Home') }}</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link" href="{{ url_for('main.explore') }}">{{ _('Explore') }}</a>
+          </li>
         </ul>
+  
         {% if g.search_form %}
-          <form class="navbar-form navbar-left" method="get" action="{{ url_for('main.search') }}">
-            <div class="form-group">
+          <form class="form header__search" method="get" action="{{ url_for('main.search') }}">
+            <div class="form__group">
               {{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
             </div>
           </form>
         {% endif %}
-        <ul class="nav navbar-nav navbar-right">
+  
+        <ul class="nav__list nav__list--right">
           {% if current_user.is_anonymous %}
-            <li><a href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
+            <li class="nav__item">
+              <a class="nav__link" href="{{ url_for('auth.login') }}">{{ _('Login') }}</a>
+            </li>
           {% else %}
-            <li>
-              <a href="{{ url_for('main.messages') }}">
+            <li class="nav__item">
+              <a class="nav__link" href="{{ url_for('main.messages') }}">
                 {{ _('Messages') }}
                 {% set new_messages = current_user.new_messages() %}
                   <span id="message_count" class="badge" style="visibility: {% if new_message %}visible{% else %}hidden{% endif %};">
@@ -41,54 +58,64 @@
                   </span>
               </a>
             </li>
-            <li><a href="{{ url_for('main.user', username=current_user.username) }}">{{ _('Profile') }}</a></li>
-            <li><a href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
+            <li class="nav__item">
+              <a class="nav__link" href="{{ url_for('main.user', username=current_user.username) }}">{{ _('Profile') }}</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a>
+            </li>
           {% endif %}
         </ul>
       </div>
-    </div>
-  </nav>
-{% endblock %}
+    </nav>
+  </header>
 
-{% block content %}
-  <div class="container">
-    {% if current_user.is_authenticated %}
-      {% with tasks = current_user.get_tasks_in_progress() %}
-        {% if tasks %}
-          {% for task in tasks %}
-            <div class="alert alert-success" role="alert">
-              {{ task.description }}
-              <span id="{{ task.id }}-progress">{{ task.get_progress() }}</span>%
-            </div>
+  <main class="main">
+    <div class="main__container">
+      {% if current_user.is_authenticated %}
+        {% with tasks = current_user.get_tasks_in_progress() %}
+          {% if tasks %}
+            {% for task in tasks %}
+              <div class="alert alert--success" role="alert">
+                {{ task.description }}
+                <span id="{{ task.id }}-progress">{{ task.get_progress() }}</span>%
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      {% endif %}
+  
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert--info" role="alert">{{ message }}</div>
           {% endfor %}
         {% endif %}
       {% endwith %}
-    {% endif %}
+  
+      {# application content needs to be provided in the app_content block #}
+      {% block app_content %}{% endblock %}
+    </div>
+  </main>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-info" role="alert">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+  <footer class="footer">
+    <div class="footer__copyright">copyright</div>
+  </footer>
 
-    {# application content needs to be provided in the app_content block #}
-    {% block app_content %}{% endblock %}
-  </div>
-{% endblock %}
-
-{# 
-  Добавляем библиотеку moment.js, не теряя базового содержимого. Это достигается с помощью 
-  оператора super(), который сохраняет содержимое из базового шаблона. Если вы определяете блок 
-  в своем шаблоне без использования super(), то любое содержимое, определенное для этого блока 
-  в базовом шаблоне, будет потеряно.
-#}
-{% block scripts %}
-  {{ super() }}
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <!-- <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script> -->
   {{ moment.include_moment() }}
   {{ moment.lang(g.locale) }}
   <script>
+    const nav = document.querySelector('.nav');
+    if (nav) {
+      const navToggle = nav.querySelector('.nav__toggle');
+
+      navToggle.addEventListener('click', () => {
+        nav.classList.toggle('nav--active');
+      });
+    }
+
     // Перевод постов 
     function translate(sourceElem, destElem, sourceLang, destLang) {
       $(destElem).html('<img src="{{ url_for('static', filename='img/loading.gif') }}">');
@@ -178,4 +205,5 @@
       });
     {% endif %}
   </script>
-{% endblock %}
+</body>
+</html>

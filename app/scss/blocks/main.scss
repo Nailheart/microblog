@@ -1,0 +1,11 @@
+.main__container {
+  @include container;
+  
+  height: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.main__title {
+  text-align: center;
+}

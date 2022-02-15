@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
-{% import 'bootstrap/wtf.html' as wtf %}
+{% from 'macros/form.html' import base, btn, checkbox %}
 
 {% block app_content %}
-  <h1>{{ _('Sign In') }}</h1>
+  <section class="auth login">
+    <h1 class="main__title">{{ _('Sign In') }}</h1>
 
-  <div class="row">
-    <div class="col-md-4">
-      {{ wtf.quick_form(form) }}
+    <form class="from" action="" method="post">
+      {{ form.hidden_tag() }}
+      {{ base(form.username) }}
+      {{ base(form.password) }}
+      {{ btn(form.submit) }}
+      {{ checkbox(form.remember_me) }}
+    </form>
+
+    <div class="login__help">
+      <p class="login__help-text">
+        {{ _('New User?') }}<br>
+        <a href="{{ url_for('auth.register') }}">{{ _('Click to Register!') }}</a>
+      </p>
+      <p class="login__help-text">
+        {{ _('Forgot Your Password?') }}<br>
+        <a href="{{ url_for('auth.reset_password_request') }}">{{ _('Click to Reset It') }}</a>
+      </p>
     </div>
-  </div>
-  <br>
-  <p>{{ _('New User?') }} <a href="{{ url_for('auth.register') }}">{{ _('Click to Register!') }}</a></p>
-  <p>
-    {{ _('Forgot Your Password?') }}
-    <a href="{{ url_for('auth.reset_password_request') }}">{{ _('Click to Reset It') }}</a>
-  </p>
+  </section>
 {% endblock %}

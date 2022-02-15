@@ -1,0 +1,49 @@
+{% macro errors(errors, bem_block='form') -%}
+  {% if errors %}
+    <ul class="{{ bem_block }}__errors">
+      {% for error in errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{%- endmacro %}
+
+{% macro render_field_errors(field) %}
+  {% if field and field.errors %}
+    <p>
+      <small class="form__error">
+        {% for error in field.errors %}
+          {{ error }}<br>
+        {% endfor %}
+      </small>
+    </p>
+  {% endif %}
+{% endmacro %}
+
+{% macro base(field, bem_block='form') -%}
+  <div class="{{ bem_block }}__group {% if field.errors %}{{ bem_block }}__group--error{% endif %}">
+    {{ field.label(class='%s__label' % bem_block) }}
+    {{ field(class='%s__input' % bem_block, placeholder=field.label.text, **kwargs) }}
+    {{ errors(field.errors) }}
+  </div>
+{%- endmacro %}
+
+{% macro checkbox(field, bem_block='form') -%}
+  <div class="{{ bem_block }}__group {{ bem_block }}__group--checkbox {% if field.errors %}{{ bem_block }}__group--error{% endif %}">
+    {{ field(class='%s__checkbox' % bem_block) }}
+    {{ field.label(class='%s__label' % bem_block, **kwargs) }}
+    {{ errors(field.errors) }}
+  </div>
+{%- endmacro %}
+
+{% macro radio(field, bem_block='form') -%}
+  <div class="{{ bem_block }}__group  {{ bem_block }}__group--radio {% if field.errors %}{{ bem_block }}__group--error{% endif %}">
+    {{ field(class='%s__radio' % bem_block) }}
+    {{ field.label(class='%s__label' % bem_block, **kwargs) }}
+    {{ errors(field.errors) }}
+  </div>
+{%- endmacro %}
+
+{% macro btn(field, bem_block='form') %}
+  {{ field(class='%s__submit' % bem_block, **kwargs)|safe }}
+{% endmacro %}

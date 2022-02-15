@@ -1,12 +1,17 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
+{% from 'macros/form.html' import base, btn %}
 
 {% block app_content %}
-  <h1>{{ _('Register') }}</h1>
-  
-  <div class="row">
-    <div class="col-md-4">
-      {{ wtf.quick_form(form) }}
-    </div>
-  </div>
+  <section class="auth">
+    <h1 class="main__title">{{ _('Registration') }}</h1>
+    
+    <form class="form" action="" method="post">
+      {{ form.hidden_tag() }}
+      {{ base(form.username) }}
+      {{ base(form.email) }}
+      {{ base(form.password) }}
+      {{ base(form.password2) }}
+      {{ btn(form.submit) }}
+    </form>
+  </section>
 {% endblock %}
