@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ _('An unexpected error has occurred') }}</h1>
+  <section class="error">
+    <h1 class="main__title">{{ _('An unexpected error has occurred') }}</h1>
     <p>{{ _('The administrator has been notified. Sorry for the inconvenience!') }}</p>
-    <p><a href="{{ url_for('main.index') }}">{{ _('Back') }}</a></p>
+    <a class="error__link" href="{{ url_for('main.index') }}">{{ _('Back') }}</a>
+  </section>
 {% endblock %}

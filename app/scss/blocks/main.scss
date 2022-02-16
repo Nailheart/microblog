@@ -7,5 +7,7 @@
 }
 
 .main__title {
-  text-align: center;
+  @include media-max(md) {
+    text-align: center;
+  }
 }

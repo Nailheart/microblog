@@ -1,0 +1,45 @@
+.user {
+  display: grid;
+  margin-bottom: 30px;
+
+  @include media-min(md) {
+    grid-template-columns: 256px 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
+  }
+}
+
+.user__avatar {
+  @include media-max(md) {
+    margin: 0 auto 30px;
+  }
+}
+
+.user__description {
+  align-self: center;
+}
+
+.user__text {
+  &--date {
+    > span {
+     color: var(--color-grey); 
+     white-space: nowrap;
+    }
+  }
+}
+
+.user__btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 15px;
+  max-width: 700px;
+
+  @include media-max(md) {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+}
+
+.user__btn {
+  @include btn;
+}

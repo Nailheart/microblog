@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
+{% from 'macros/form.html' import textarea, btn %}
 
 {% block content %}
-  <h1>{{ _('Send Message to %(recipient)s', recipient=recipient) }}</h1>
+  <h1 class="main__title">{{ _('Send Message to %(recipient)s', recipient=recipient) }}</h1>
   
-  <div class="row">
-    <div class="col-md-4">
-      {{ wtf.quick_form(form) }}
-    </div>
-  </div>
+  <form class="form" action="" method="post">
+    {{ form.hidden_tag() }}
+    {{ textarea(form.message) }}
+    {{ btn(form.submit) }}
+  </form>
 {% endblock %}
