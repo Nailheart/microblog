@@ -38,7 +38,7 @@ const path = {
     root: `${dirs.app}/templates/`,
   },
   scripts: {
-    root: `${dirs.static}/js/`,
+    root: `${dirs.app}/js/`,
     save: `${dirs.static}/js/`
   },
   img: {
@@ -68,18 +68,14 @@ export const scripts = () => src([`${path.scripts.root}*.js`, `!${path.scripts.r
   }))
   .pipe(dest(path.scripts.save));
 
-export const sprite = () => src(`${path.img.root}**/*.svg`)
+export const scriptsLibs = () => src(`${path.scripts.root}*.min.js`)
+  .pipe(dest(path.scripts.save));
+
+export const sprite = () => src([`${dirs.static}/img/**/*.svg`, `!${dirs.static}/img/sprite.svg`])
   .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
   .pipe(svgmin({
     multipass: true,
     plugins: [
-      'removeDoctype',
-      'removeXMLProcInst',
-      'removeComments',
-      'removeMetadata',
-      'removeEditorsNSData',
-      'removeUselessStrokeAndFill',
-      'removeUselessDefs',
       'removeStyleElement',
       'removeScriptElement',
       'removeXMLNS',
@@ -93,15 +89,13 @@ export const sprite = () => src(`${path.img.root}**/*.svg`)
       $('[stroke]').attr('stroke', 'currentColor').attr('fill', 'transparent');
       $('[style]').removeAttr('style');
     },
-    parserOptions: {xmlMode: true}
+    parserOptions: { xmlMode: true }
   }))
-  .pipe(svgstore({
-    inlineSvg: true
-  }))
+  .pipe(svgstore({ inlineSvg: true }))
   .pipe(rename('sprite.svg'))
   .pipe(dest(path.img.save))
 
-export const cleanStyles = () => del([`${path.styles.save}/styles.min.css`, `${path.styles.save}/styles.min.css.map`]);
+export const clean = () => del([path.styles.save, path.scripts.save]);
 
 export const devWatch = () => {
   const bs = browserSync.init({
@@ -121,11 +115,11 @@ export const devWatch = () => {
 /**
  * Задачи для разработки
  */
-export const dev = series(cleanStyles, parallel(styles, scripts, sprite), devWatch);
+export const dev = series(clean, parallel(styles, scripts, scriptsLibs, sprite), devWatch);
 
 /**
  * Для билда
  */
-export const build = series(cleanStyles, parallel(styles, scripts, sprite));
+export const build = series(clean, parallel(styles, scripts, scriptsLibs, sprite));
 
 export default dev;
