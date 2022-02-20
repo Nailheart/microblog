@@ -1,39 +1,35 @@
-<table class="table">
-  <tr>
-    <td width="64" style="border: 0px;"><img src="{{ user.avatar(64) }}"></td>
-    <td style="border: 0px;">
-      <p><a href="{{ url_for('main.user', username=user.username) }}">
-        {{ user.username }}
-      </a></p>
-      <small>
-        {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-        {% if user.last_seen %}
-          <p>{{ _('Last seen on') }}: {{ moment(user.last_seen).format('lll') }}</p>
-        {% endif %}
+<div class="user-popup">
+  <img class="user-popup__avatar" src="{{ user.avatar(64) }}" width="64">
 
-        <p>
-          {{ _('%(count)d followers', count=user.followers.count()) }},
-          {{ _('%(count)d following', count=user.followed.count()) }}
-        </p>
+  <div class="user-popup__inner">
+    <a class="user-popup__username" href="{{ url_for('main.user', username=user.username) }}">
+      {{ user.username }}
+    </a>
+    <small>
+      {% if user.about_me %}<p class="user-popup__text">{{ user.about_me }}</p>{% endif %}
+      {% if user.last_seen %}
+        {# TODO: добавить класс к дате #}
+        <p class="user-popup__text user-popup__text--date">{{ _('Last seen on') }}: {{ moment(user.last_seen).format('lll') }}</p>
+      {% endif %}
 
-        {% if user != current_user %}
-          {% if not current_user.is_following(user) %}
-            <p>
-              <form action="{{ url_for('main.follow', username=user.username) }}" method="post">
-                {{ form.hidden_tag() }}
-                {{ form.submit(value=_('Follow'), class_='btn btn-default btn-sm') }}
-              </form>
-            </p>
-          {% else %}
-            <p>
-              <form action="{{ url_for('main.unfollow', username=user.username) }}" method="post">
-                {{ form.hidden_tag() }}
-                {{ form.submit(value=_('Unfollow'), class_='btn btn-default btm-sm') }}
-              </form>
-            </p>
-          {% endif %}
+      <p class="user-popup__follow-info">
+        {{ _('%(count)d followers', count=user.followers.count()) }},
+        {{ _('%(count)d following', count=user.followed.count()) }}
+      </p>
+
+      {% if user != current_user %}
+        {% if not current_user.is_following(user) %}
+          <form class="form" action="{{ url_for('main.follow', username=user.username) }}" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.submit(value=_('Follow'), class_='from__submit from__submit--sm') }}
+          </form>
+        {% else %}
+          <form class="form" action="{{ url_for('main.unfollow', username=user.username) }}" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.submit(value=_('Unfollow'), class_='from__submit from__submit--sm') }}
+          </form>
         {% endif %}
-      </small>
-    </td>
-  </tr>
-</table>
+      {% endif %}
+    </small>
+  </div>
+</div>

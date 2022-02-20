@@ -1,5 +1,7 @@
 .pagination {
   margin-top: 30px;
+
+  @include media-min(md) { margin-top: 50px; }
 }
 
 .pagination__list {

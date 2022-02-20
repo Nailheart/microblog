@@ -4,13 +4,15 @@
   position: relative;
 }
 
-.header__search {  
+.header__search {
   @include media-max(md) {
-    order: -1;
+    width: 90%;
     margin-bottom: 10px;
+    order: -1;
   }
   @include media-min(md) {
-    margin: 0 10px;
+    width: 100%;
+    margin: 0 20px 0 10px;
   }
 }
 

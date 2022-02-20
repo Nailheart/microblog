@@ -134,5 +134,36 @@
 
   &:hover,
   &:focus-visible { color: var(--color-dark-grey); }
+
   @include media-min(md) { padding: 10px; }
+
+  &--message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-white);
+    padding: 5px 10px;
+    background-color: var(--color-blue);
+    border-radius: 4px;
+    position: relative;
+
+    > svg { display: none; }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-white);
+      background-color: var(--color-blue-hover);
+    }
+
+    @include media-min(md) {
+      padding: 5px;
+
+      > svg { display: block; }
+      .nav__link-text { display: none; }
+    }
+  }
+}
+
+.nav__link-badge {
+  @include badge;
 }

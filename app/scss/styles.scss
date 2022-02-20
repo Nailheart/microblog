@@ -4,6 +4,7 @@
 @import "mixins/media";
 @import "mixins/container";
 @import "mixins/btn";
+@import "mixins/badge";
 @import "common/global";
 
 // Blocks
@@ -15,7 +16,9 @@
 @import "blocks/login";
 @import "blocks/alert";
 @import "blocks/form";
+@import "blocks/tooltip";
 @import "blocks/post";
 @import "blocks/pagination";
 @import "blocks/user";
+@import "blocks/user-popup";
 @import "blocks/footer";

@@ -47,12 +47,18 @@
             </li>
           {% else %}
             <li class="nav__item">
-              <a class="nav__link" href="{{ url_for('main.messages') }}">
-                {{ _('Messages') }}
+              <a class="nav__link nav__link--message" href="{{ url_for('main.messages') }}" aria-label="{{ _('Messages') }}">
+                <span class="nav__link-text">{{ _('Messages') }}</span>
+
+                {# TODO: переделать ссылку на svg иконку #}
+                <svg class="nav__link-icon" width="24" height="24" aria-label="{{ _('icon messages') }}">
+                  <use href="{{ url_for('static', filename='img/sprite.svg#notifications').replace("%23", "#") }}"></use>
+                </svg>
+
                 {% set new_messages = current_user.new_messages() %}
-                  <span id="message_count" class="badge" style="visibility: {% if new_message %}visible{% else %}hidden{% endif %};">
-                    {{ new_messages }}
-                  </span>
+                <span id="message_count" class="nav__link-badge" style="visibility: {% if new_messages %}visible{% else %}hidden{% endif %};">
+                  {{ new_messages }}
+                </span>
               </a>
             </li>
             <li class="nav__item">
@@ -98,17 +104,12 @@
   </footer>
 
   <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
   {{ moment.include_moment() }}
   {{ moment.lang(g.locale) }}
+  <script src="{{ url_for('static', filename='js/main.min.js') }}"></script>
   <script>
-    // Переключения навигации
-    const nav = document.querySelector('.nav');
-    if (nav) {
-      const navToggle = nav.querySelector('.nav__toggle');
-      navToggle.addEventListener('click', () => {
-        nav.classList.toggle('nav--active');
-      });
-    }
+    // TODO: переделать на нитивный js
 
     // Перевод постов 
     function translate(sourceElem, destElem, sourceLang, destLang) {
@@ -124,58 +125,29 @@
       });
     }
 
-    // Отображения попапа при наведении на имя пользователя
-    $(() => {
-      let timer = null;
-      let xhr = null;
-      $('.user_popup').hover(
-        (event) => {
-          // mouse in event handler
-          const elem = $(event.currentTarget);
-          timer = setTimeout(() => {
-            timer = null;
-            xhr = $.ajax('/user/' + elem.first().text().trim() + '/popup').done((data) => {
-              xhr = null;
-              elem.popover({
-                trigger: 'manual',
-                html: true,
-                animation: false,
-                container: elem,
-                content: data
-              }).popover('show');
-                // когда новые элементы Flask-Moment добавляются через Ajax, необходимо вызвать функцию
-                // flask_moment_render_all() для правельного отображения этих элементов.
-              flask_moment_render_all();  
-            });
-          }, 1000);
-        },
-        (event) => {
-          // mouse out event handler
-          const elem = $(event.currentTarget);
-          if (timer) {
-            clearTimeout(timer);
-            timer = null;
-          } else if (xhr) {
-            xhr.abort();
-            xhr = null;
-          } else {
-            elem.popover('destroy')
-          }
-        }
-      )
-    });
-
     // Отображаем колочество непрочитаных сообщений
     function set_message_count(n) {
-      $('#message_count').text(n);
-      $('#message_count').css('visibility', n ? 'visible' : 'hidden');
-    }
-    // вспомогательная функция для динамического обновления хода выполнения задачи
-    function set_task_progress(task_id, progress) {
-      $('#' + task_id + '-progress').text(progress);
+      const message_count = document.querySelector('#message_count');
+
+      if (n) { 
+        message_count.style.visibility = 'visible';
+      } else {
+        message_count.style.visibility = 'hidden';
+      }
+
+      if (n > 99) {
+        message_count.textContent = '99+';
+      } else {
+        message_count.textContent = n;
+      }
     }
 
-    // Обновляем счетчик не прочитаных сообщений каждые 10 секунд
+    // вспомогательная функция для динамического обновления хода выполнения задачи
+    function set_task_progress(task_id, progress) {
+      document.querySelector('#' + task_id + '-progress').textContent = progress;
+    }
+
+    // Обновляем счетчик непрочитаных сообщений каждые 10 секунд
     {% if current_user.is_authenticated %}
       $(() => {
         let since = 0;
