@@ -4,9 +4,8 @@
   gap: 10px;
   color: var(--color-dark-grey);
   padding: 15px;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, .3);
+
+  @include media-max(md) { max-width: 300px; }
 }
 
 .user-popup__username {
