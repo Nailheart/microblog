@@ -38,7 +38,7 @@ const path = {
     root: `${dirs.app}/templates/`,
   },
   scripts: {
-    root: `${dirs.app}/js/`,
+    root: `${dirs.static}/js/`,
     save: `${dirs.static}/js/`
   },
   img: {
@@ -61,14 +61,12 @@ export const styles = () => src(path.styles.compile)
   .pipe(sourcemaps.write('.'))
   .pipe(dest(path.styles.save));
 
+// TODO: придумать что-то со минификацыей скриптов
 export const scripts = () => src([`${path.scripts.root}*.js`, `!${path.scripts.root}*.min.js`])
   .pipe(uglify())
   .pipe(rename({
     suffix: '.min'
   }))
-  .pipe(dest(path.scripts.save));
-
-export const scriptsLibs = () => src(`${path.scripts.root}*.min.js`)
   .pipe(dest(path.scripts.save));
 
 export const sprite = () => src([`${dirs.static}/img/**/*.svg`, `!${dirs.static}/img/sprite.svg`])
@@ -95,7 +93,7 @@ export const sprite = () => src([`${dirs.static}/img/**/*.svg`, `!${dirs.static}
   .pipe(rename('sprite.svg'))
   .pipe(dest(path.img.save))
 
-export const clean = () => del([path.styles.save, path.scripts.save]);
+export const clean = () => del(path.styles.save);
 
 export const devWatch = () => {
   const bs = browserSync.init({
@@ -115,11 +113,11 @@ export const devWatch = () => {
 /**
  * Задачи для разработки
  */
-export const dev = series(clean, parallel(styles, scripts, scriptsLibs, sprite), devWatch);
+export const dev = series(clean, parallel(styles, scripts, sprite), devWatch);
 
 /**
  * Для билда
  */
-export const build = series(clean, parallel(styles, scripts, scriptsLibs, sprite));
+export const build = series(clean, parallel(styles, scripts, sprite));
 
 export default dev;
