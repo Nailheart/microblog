@@ -19,7 +19,7 @@
             <a class="user__btn" href="{{ url_for('main.export_posts') }}">{{ _('Export your posts') }}</a>
           {% endif %}
         {% elif not current_user.is_following(user) %}
-          <form action="{{ url_for('main.follow', username=user.username) }}" method="post">
+          <form class="form" action="{{ url_for('main.follow', username=user.username) }}" method="post">
             {{ form.hidden_tag() }}
             {{ btn(form.submit, value=_('Follow')) }}
           </form>

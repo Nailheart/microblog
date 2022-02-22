@@ -1,0 +1,30 @@
+.user-popup {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 10px;
+  color: var(--color-dark-grey);
+  padding: 15px;
+
+  @include media-max(md) { max-width: 300px; }
+}
+
+.user-popup__username {
+  color: var(--color-blue);
+  margin-bottom: 5px;
+}
+
+.user-popup__text{
+  margin-bottom: 5px;
+
+  &:last-child { margin-bottom: 0; }
+  &--date {
+    > span { 
+      color: var(--color-grey);
+      white-space: nowrap;
+    }
+  }
+}
+
+.user-popup__follow-info {
+  white-space: nowrap;
+}

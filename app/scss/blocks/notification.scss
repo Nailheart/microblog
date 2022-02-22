@@ -1,0 +1,30 @@
+.notification {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-grey);
+  padding: 5px;
+  border-radius: var(--border-radius);
+  position: relative;
+  transition: .2s;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-dark-grey);
+  }
+
+  &--active {
+    color: var(--color-white);
+    background-color: var(--color-blue);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-white);
+      background-color: var(--color-blue-hover);
+    }
+  }
+}
+
+.notification__badge {
+  @include badge;
+}
