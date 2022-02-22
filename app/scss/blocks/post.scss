@@ -1,12 +1,18 @@
 .post {
   display: grid;
-  grid-template-columns: 70px 1fr;
   align-items: start;
   gap: 20px;
   padding-top: 15px;
   border-top: 1px solid var(--color-border);
 
   &:not(:last-child) { margin-bottom: 20px; }
+  @include media-min(md) { grid-template-columns: 70px 1fr; }
+}
+
+.post__avatar {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
 }
 
 .post__top {
@@ -21,8 +27,14 @@
 .post__text {
   font-size: 1rem;
   line-height: 1.5;
+  word-wrap: break-word;
+  max-width: 1250px;
 
   &:last-child { margin-bottom: 0; }
+  
+  @include media-max(md) { width: calc(100vw - $gap-sm * 2); }
+  @include media-min(md) { width: calc(100vw - ($gap-md * 2 + 90px)); }
+  @include media-min(xl) { width: auto; }
 }
 
 .post__translate {
