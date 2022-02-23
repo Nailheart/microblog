@@ -52,6 +52,11 @@ svg {
   fill: currentColor;
 }
 
+span[data-timestamp] {
+  color: var(--color-grey);
+  white-space: nowrap;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }

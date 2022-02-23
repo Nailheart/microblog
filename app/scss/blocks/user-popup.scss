@@ -17,12 +17,6 @@
   margin-bottom: 5px;
 
   &:last-child { margin-bottom: 0; }
-  &--date {
-    > span { 
-      color: var(--color-grey);
-      white-space: nowrap;
-    }
-  }
 }
 
 .user-popup__follow-info {

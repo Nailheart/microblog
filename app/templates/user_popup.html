@@ -8,8 +8,7 @@
     <small>
       {% if user.about_me %}<p class="user-popup__text">{{ user.about_me }}</p>{% endif %}
       {% if user.last_seen %}
-        {# TODO: добавить класс к дате #}
-        <p class="user-popup__text user-popup__text--date">{{ _('Last seen on') }}: {{ moment(user.last_seen).format('lll') }}</p>
+        <p class="user-popup__text">{{ _('Last seen on') }}: {{ moment(user.last_seen).format('lll') }}</p>
       {% endif %}
 
       <p class="user-popup__follow-info">

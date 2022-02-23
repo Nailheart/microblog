@@ -174,20 +174,20 @@
         let since = 0;
         setInterval(() => {
           fetch('{{ url_for('main.notifications') }}?since=' + since)
-          .then((data) => data.json())
-          .then((notifications) => {
-            notifications.forEach((notification) => {
-              switch (notification.name) {
-                case 'unread_message_count':
-                  set_message_count(notification.data);
-                  break;
-                case 'task_progress': {# TODO: перечитать главу розобраться как работает redis #}
-                  set_task_progress(notification.data.task_id, notification.data.progress);
-                  break;
-              }
-              since = notification.timestamp;
+            .then((data) => data.json())
+            .then((notifications) => {
+              notifications.forEach((notification) => {
+                switch (notification.name) {
+                  case 'unread_message_count':
+                    set_message_count(notification.data);
+                    break;
+                  case 'task_progress': {# TODO: перечитать главу розобраться как работает redis #}
+                    set_task_progress(notification.data.task_id, notification.data.progress);
+                    break;
+                }
+                since = notification.timestamp;
+              });
             });
-          });
         }, 10000);
       });
     {% endif %}

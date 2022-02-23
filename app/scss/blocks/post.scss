@@ -15,14 +15,8 @@
   object-fit: cover;
 }
 
-.post__top {
-  color: var(--color-grey);
-  margin-bottom: 5px;
-}
-
-.post__author {
-  color: var(--color-blue);
-}
+.post__top { margin-bottom: 5px; }
+.post__author { color: var(--color-blue); }
 
 .post__text {
   font-size: 1rem;
