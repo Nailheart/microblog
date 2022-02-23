@@ -38,7 +38,7 @@ const path = {
     root: `${dirs.app}/templates/`,
   },
   scripts: {
-    root: `${dirs.static}/js/`,
+    root: `${dirs.app}/js/`,
     save: `${dirs.static}/js/`
   },
   img: {
@@ -61,7 +61,6 @@ export const styles = () => src(path.styles.compile)
   .pipe(sourcemaps.write('.'))
   .pipe(dest(path.styles.save));
 
-// TODO: придумать что-то со минификацыей скриптов
 export const scripts = () => src([`${path.scripts.root}*.js`, `!${path.scripts.root}*.min.js`])
   .pipe(uglify())
   .pipe(rename({

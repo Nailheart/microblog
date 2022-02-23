@@ -120,29 +120,11 @@
     <div class="footer__copyright">copyright</div>
   </footer>
 
-  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
   {{ moment.include_moment() }}
   {{ moment.lang(g.locale) }}
   <script src="{{ url_for('static', filename='js/main.min.js') }}"></script>
   <script>
-    // TODO: переделать на нитивный js
-    // вывести в консоль атрибуты с функции перевода
-
-    // Перевод постов 
-    function translate(sourceElem, destElem, sourceLang, destLang) {
-      $(destElem).html('<img src="{{ url_for('static', filename='img/loading.gif') }}">');
-      $.post('/translate', {
-        text: $(sourceElem).text(),
-        source_language: sourceLang,
-        dest_language: destLang
-      }).done((response) => {
-        $(destElem).text(response['text'])
-      }).fail(() => {
-        $(destElem).text("{{ _('Error: Could not contact server.') }}");
-      });
-    }
-
     // Отображаем колочество непрочитаных сообщений
     function set_message_count(n) {
       const notification = document.querySelector('.notification');
@@ -170,7 +152,7 @@
 
     // Обновляем счетчик непрочитаных сообщений каждые 10 секунд
     {% if current_user.is_authenticated %}
-      $(() => {
+      (() => {
         let since = 0;
         setInterval(() => {
           fetch('{{ url_for('main.notifications') }}?since=' + since)
@@ -189,7 +171,7 @@
               });
             });
         }, 10000);
-      });
+      })();
     {% endif %}
   </script>
 </body>

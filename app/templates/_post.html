@@ -18,10 +18,11 @@
 
     <p id="post{{ post.id }}" class="post__text">{{ post.body }}</p>
 
+{#
     {% if post.language and post.language != g.locale %}
       <span id="translation{{ post.id }}">
-        <a 
-          class="post__translate" 
+        <a
+          class="post__translate"
           href="javascript:translate(
             '#post{{ post.id }}',
             '#translation{{ post.id }}',
@@ -32,5 +33,6 @@
         </a>
       </span>
     {% endif %}
+#}
   </div>
 </div>

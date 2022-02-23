@@ -44,7 +44,7 @@ class Config(object):
     # export MAIL_PASSWORD=<your-gmail-password>
 
     # количества постов на странице
-    POSTS_PER_PAGE = 3
+    POSTS_PER_PAGE = 5
 
     # список поддерживаемых языков
     LANGUAGES = ['en', 'ru']
