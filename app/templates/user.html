@@ -47,7 +47,7 @@
     <ul class="pagination__list">
       <li class="pagination__prev">
         <a class="pagination__link {% if not prev_url %}pagination__link--disabled{% endif %}" href="{{ prev_url or '#' }}">
-          {{ _('Newer posts') }}
+          {{ _('Previous') }}
         </a>
       </li>
   
@@ -69,7 +69,7 @@
   
       <li class="pagination__next">
         <a class="pagination__link {% if not next_url %}pagination__link--disabled{% endif %}" href="{{ next_url or '#' }}">
-          {{ _('Older posts') }}
+          {{ _('Next') }}
         </a>
       </li>
     </ul>

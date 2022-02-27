@@ -11,12 +11,12 @@
     <ul class="pagination__list">
       <li class="pagination__prev">
         <a class="pagination__link {% if not prev_url %}pagination__link--disabled{% endif %}" href="{{ prev_url or '#' }}">
-          {{ _('Previous results') }}
+          {{ _('Previous') }}
         </a>
       </li>
       <li class="pagination__next">
         <a class="pagination__link {% if not next_url %}pagination__link--disabled{% endif %}" href="{{ next_url or '#' }}">
-          {{ _('Next results') }}
+          {{ _('Next') }}
         </a>
       </li>
     </ul>
