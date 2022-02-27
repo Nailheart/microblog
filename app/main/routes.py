@@ -48,7 +48,7 @@ def index():
         'index.html', 
         title=_('Home'),
         form=form,
-        posts=posts.items, 
+        posts=posts, 
         next_url=next_url,
         prev_url=prev_url
     )
@@ -62,11 +62,11 @@ def explore():
     next_url = url_for('main.explore', page=posts.next_num) if posts.has_next else None
     prev_url = url_for('main.explore', page=posts.prev_num) if posts.has_prev else None
     return render_template(
-        'index.html', 
+        'explore.html',
         title=_('Explore'),
-        posts=posts.items,
+        posts=posts,
         next_url=next_url,
-        prev_url=prev_url   
+        prev_url=prev_url
     )
 
 
@@ -82,7 +82,7 @@ def user(username):
     return render_template(
         'user.html', 
         user=user, 
-        posts=posts.items,
+        posts=posts,
         next_url=next_url, 
         prev_url=prev_url, 
         form=form
@@ -214,7 +214,7 @@ def messages():
     prev_url = url_for('main.messages', page=messages.prev_num) if messages.has_prev else None
     return render_template(
         'messages.html',
-        messages=messages.items,
+        messages=messages,
         next_url=next_url,
         prev_url=prev_url
     )

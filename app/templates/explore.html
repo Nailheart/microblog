@@ -1,17 +1,7 @@
 {% extends "base.html" %}
-{% from 'macros/form.html' import textarea, btn %}
 
 {% block content %}
-  <h1 class="main__title">{{ _('Hi, %(username)s!', username=current_user.username) }}</h1>
-
-  {% if form %}
-    <form class="from" action="" method="post">
-      {{ form.hidden_tag() }}
-      {{ textarea(form.post) }}
-      {{ btn(form.submit) }}
-    </form>
-    <br>
-  {% endif %}
+  <h1 class="main__title">{{ _('Explore') }}</h1>
 
   {% for post in posts.items %}
     {% include '_post.html' %}
@@ -29,11 +19,11 @@
         {% if page_num %}
           {% if posts.page == page_num %}
             <li class="pagination__item">
-              <a class="pagination__link pagination__link--active" href="{{ url_for('main.index', page=page_num) }}">{{ page_num }}</a>
+              <a class="pagination__link pagination__link--active" href="{{ url_for('main.explore', page=page_num) }}">{{ page_num }}</a>
             </li>
           {% else %}
             <li class="pagination__item">
-              <a class="pagination__link" href="{{ url_for('main.index', page=page_num) }}">{{ page_num }}</a>
+              <a class="pagination__link" href="{{ url_for('main.explore', page=page_num) }}">{{ page_num }}</a>
             </li>
           {% endif %}
         {% else %}
