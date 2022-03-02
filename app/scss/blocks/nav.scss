@@ -16,18 +16,8 @@
       .nav__mobile { display: flex; }
     }
   }
-  @include media-min(lg) {
-    gap: 0 30px;
-  }
-}
-
-.nav__header {
-  display: flex;
-  align-items: center;
-
-  @include media-min(md) {
-    margin-right: 10px;
-  }
+  @include media-min(md) { justify-content: space-between; }
+  @include media-min(lg) { gap: 0 30px; }
 }
 
 .nav__toggle {
@@ -116,8 +106,6 @@
   position: absolute;
   top: 59px;
   left: 0;
-  // transform: translateX(-100%);
-  // transition: .2s;
   animation: .2s ease-in show-menu;
   z-index: 98;
 }
